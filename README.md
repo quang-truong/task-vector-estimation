@@ -15,7 +15,7 @@ pip install relbench[full]
 pip install -r requirements.txt
 ```
 
-Please download the zip file containing the training tables in this Google Drive: `https://drive.google.com/file/d/1X5UBgrCpiL2086IF076xysy5lh9n4TIj/view?usp=sharing`.
+Please download the zip file containing the training tables in this Google Drive: https://drive.google.com/drive/folders/1GbvcFtrjSYBnJGDtCEp91HRiGoJTb6uG?usp=sharing.
 Please unzip it in the root directory of this repository.
 
 ## WandB

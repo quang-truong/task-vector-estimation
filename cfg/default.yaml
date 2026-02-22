@@ -1,0 +1,4 @@
+optimizer:
+  lr: 0.005
+lr_scheduler:
+  warmup_steps: 1

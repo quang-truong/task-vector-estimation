@@ -1,0 +1,14 @@
+easydict==1.13
+ipython==8.27.0
+joblib==1.4.2
+numpy==1.25.2
+matplotlib==3.9.2
+pandas==2.2.2
+pytest==8.3.3
+rich==13.8.1
+rootutils==1.0.7
+sentence-transformers==3.0.1
+torchmetrics==1.4.1
+tqdm==4.66.5
+wandb==0.18.1
+seaborn==0.13.2

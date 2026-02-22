@@ -1,0 +1,77 @@
+# Configuration for Training
+
+seed: {{ seed }}                          # Random seed (default is 43)
+debug: {{ debug }}                        # Enable/Disable Debug mode
+fast_dev_run: {{ fast_dev_run }}          # Fast development run, limits training steps
+num_runs: {{ num_runs }}                  # Number of experiment runs
+
+# Logging and MLOps
+name: {{ name }}                          # Experiment name
+note: {{ note }}                          # Experiment note for WandB
+project: {{ project }}                    # WandB project name
+
+# Dataset
+dataset:
+  cls: rel-amazon
+  task: item-churn
+
+# Model Configuration
+model:
+  hetero_encoder:
+    cls: "resnet"                         # Encoder class for heterogeneous graph (resnet, trompt)
+    kwargs:
+      text_embedder: "glove"              # Text encoder for the model (glove, minilm)
+      in_channels: 128                    # Hidden dimension size for the model
+      num_layers: 4                       # Number of layers in the encoder
+      norm: "ln"
+      act_fnc: "relu"
+      dropout_rate: 0.2
+  temporal_encoder:
+    kwargs:
+      in_channels: 128
+      norm: "id"
+      act_fnc: "id"
+      dropout_rate: 0.0
+      bias: True
+  conv:
+    cls: "graphsage"                      # Convolution class for homogeneous graph (gcn, graphsage)
+    kwargs:
+      channels: 128                       # Hidden dimension size for the model
+      aggr: "mean"                        # Aggregation function (mean, sum, max, min, cat, null)
+      norm: "ln"
+      act_fnc: "relu"
+      dropout_rate: 0.0
+      bias: True
+      project: False
+      residual: True
+      jump_mode: null                     # Jump connection mode (cat, max, null)
+  shallow_list: []                        # List of entities to apply shallow embeddings
+
+# Checkpoint Configuration
+checkpoint: {{ checkpoint }}              # Path to model checkpoint
+
+# Optimizer Configuration
+optimizer:
+  cls: "AdamW"                            # Optimizer class (e.g., Adam, SGD)
+  lr: 0.005                               # Learning rate
+
+lr_scheduler:
+  cls: "WarmupLR"
+  warmup_steps: 1
+
+
+# Training Configuration
+train:
+  gpus: {{ gpus }}
+  batch_size: 512                         # Batch size for training
+  num_epochs: 20                          # Number of epochs for training
+  max_steps_per_epoch: 1000               # Maximum number of steps per epoch
+  eval_every: 1                           # Evaluate the model every X epochs
+  loss_fn:                  
+    cls: bce                              # Loss function to use: bce, mse, mae, bpr
+  use_link_neighbor_loader: False         # For Link Prediction
+  share_same_time: False                  # For Link Prediction
+  num_neighbors: [128, 64]                # Number of neighbors to sample
+  temporal_strategy: "uniform"            # Possible values: uniform, last
+  subgraph_type: "bidirectional"          # Possible values: directional, bidirectional, induced
+  num_workers: {{ num_workers }}          # Number of workers for data loader
